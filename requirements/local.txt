@@ -1,6 +1,6 @@
 -r base.txt
 
-black-19.3b0 # https://github.com/psf/black
-mypy-0.730 # https://github.com/python/mypy
-pep8-1.7.1 # https://github.com/treyhunner/pep8
-pydocstyle-4.0.1 # https://github.com/PyCQA/pycodestyle
+black==19.3b0 # https://github.com/psf/black
+mypy==0.730 # https://github.com/python/mypy
+pep8==1.7.1 # https://github.com/treyhunner/pep8
+pydocstyle==4.0.1 # https://github.com/PyCQA/pycodestyle

@@ -1,24 +1,36 @@
 """Main function loop."""
 
-from game import Game
+from game import Game, Window, Particle
 from pygame.color import Color
-from utils import Window
-import pygame
 import sys
 
 SCREEN_SIZE = Window(1280, 720)
 SCREEN_COLOR = Color("red")
 
+particles = []
+
+
+def game_logic(game: Game) -> None:
+    for event in game.events:
+        if event.type == game.manager.QUIT:
+            game.running = False
+
+        if event.type == game.manager.MOUSEBUTTONDOWN:
+            mouseX, mouseY = game.get_mouse_position()
+            print(mouseX, mouseY)
+            particles.append(Particle(mouseX, mouseY, 50, Color(0, 0, 0)))
+
+        for particle in particles:
+            particle.update(game)
+
 
 def main():
     """Init function."""
     with Game(SCREEN_SIZE, SCREEN_COLOR) as game:
-        while True:
-            for event in game.events:
-                print(event)
+        game.init_loop(game_logic)
 
-            #      if e.type == pg.MOUSEBUTTONDOWN:
-            # (mouseX, mouseY) = pg.mouse.get_pos()
+        #      if e.type == pg.MOUSEBUTTONDOWN:
+        # (mouseX, mouseY) = pg.mouse.get_pos()
     # screen = pygame.display.set_mode(SCREEN_SIZE)
     # print(SCREEN_COLOR)
     # print(type(SCREEN_COLOR))
