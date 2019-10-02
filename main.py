@@ -2,45 +2,62 @@
 
 from game import Game, Window, Particle
 from pygame.color import Color
+import random
 import sys
 
-SCREEN_SIZE = Window(1280, 720)
-SCREEN_COLOR = Color("red")
 
+# Declare constants
+SCREEN_SIZE = Window(1280, 720)
+SCREEN_COLOR = Color("#f5f5f5")
+COLOR_PALETTE = [
+    (194, 227, 236),
+    (253, 243, 184),
+    (251, 215, 183),
+    (236, 180, 191),
+    (198, 172, 199),
+]
+MAX_PARTICLES = 100
+PARTICLE_SIZE = 25
+
+# Store particles
 particles = []
 
 
 def game_logic(game: Game) -> None:
-    for event in game.events:
-        if event.type == game.manager.QUIT:
-            game.running = False
+    """Any game logic."""
+    # Capture any important events
+    event = game.manager.event.poll()
+    if event.type == game.manager.QUIT:
+        # Quit game
+        game.running = False
 
-        if event.type == game.manager.MOUSEBUTTONDOWN:
-            mouseX, mouseY = game.get_mouse_position()
-            print(mouseX, mouseY)
-            particles.append(Particle(mouseX, mouseY, 50, Color(0, 0, 0)))
+    # If the user clicks the mouse button
+    if event.type == game.manager.MOUSEBUTTONDOWN:
+        # Get the mouse position
+        mouse_x, mouse_y = game.mouse_position
 
-        for particle in particles:
-            particle.update(game)
+        # For the max range in particles
+        for _ in range(MAX_PARTICLES):
+            # Get a random color
+            color = random.choice(COLOR_PALETTE)
+
+            # Append a particle to the particles list
+            particles.append(
+                Particle(game, mouse_x, mouse_y, PARTICLE_SIZE, Color(*color))
+            )
+
+    # Update particles as needed.
+    for particle in particles:
+        particle.update()
 
 
 def main():
     """Init function."""
+    # Setup up logic
     with Game(SCREEN_SIZE, SCREEN_COLOR) as game:
+        # Begin game loop
         game.init_loop(game_logic)
 
-        #      if e.type == pg.MOUSEBUTTONDOWN:
-        # (mouseX, mouseY) = pg.mouse.get_pos()
-    # screen = pygame.display.set_mode(SCREEN_SIZE)
-    # print(SCREEN_COLOR)
-    # print(type(SCREEN_COLOR))
-    # screen.fill(SCREEN_COLOR)
-    # screen.display.flip()
-    # while True:
-    #     for events in pygame.event.get():
-    #         print(type(pygame.event.get()))
-    #         if events.type == pygame.QUIT:
-    #             sys.exit(0)
 
-
+# Start it
 main()

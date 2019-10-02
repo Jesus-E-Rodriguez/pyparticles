@@ -21,12 +21,6 @@ class Vector(object):
         """Set current vector."""
         self.x, self.y = vector.x, vector.y
 
-    @classmethod
-    def subtract(cls, v1: Vector, v2: Vector) -> Vector:
-        """Class method to subtract two vectors."""
-        x, y = v1.x - v2.x, v1.y - v2.y
-        return Vector(x, y)
-
     def subtract(self, vector: Vector) -> None:
         """Subtract vector from current vector."""
         self.x -= vector.x
@@ -56,7 +50,7 @@ class Vector(object):
 
     @property
     def magnitude(self) -> float:
-        """Calculate the magnitude (length) of the vector."""
+        """Calculate the length of the vector."""
         return math.sqrt(self.magnitude_squared)
 
     @property
@@ -70,7 +64,7 @@ class Vector(object):
 
     def normalize(self) -> Vector:
         """Normalize the vector to length 1 (make it a unit vector)."""
-        return self if self.mag() == 0 else self.divide(self.magnitude)
+        return self if self.magnitude == 0 else self.divide(self.magnitude)
 
     def get_vector_from_angle(self, angle) -> Vector:
         """Return a vector from an angle in radians."""
@@ -98,8 +92,6 @@ class Vector(object):
         return {"x": self.x, "y": self.y}
 
     @property
-    def to_tuple(
-        self
-    ) -> Tuple[Tuple[str, Union[float, int]], Tuple[str, Union[float, int]]]:
+    def to_tuple(self) -> Tuple[Union[float, int], Union[float, int]]:
         """Return a tuple."""
         return (self.x, self.y)
